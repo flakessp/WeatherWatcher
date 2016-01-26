@@ -12,34 +12,31 @@ define([
 
         html: [
             '<nav class="navbar navbar-default">',
-                '<a class="navbar-brand" href="#">Weather Watcher</a>',
-                '<ul class="nav navbar-nav">',
-                    '<li id="nav-dash"><a href="#dash">Dashboard</a></li>',
-                    '<li id="nav-about"><a href="#about">About</a></li>',
-                '</ul>',
-                '<p class="navbar-text pull-right"></p>',
+            '<a class="navbar-brand" href="#">Weather Watcher</a>',
+            '<ul class="nav navbar-nav">',
+            '<li id="nav-dash"><a href="#dash">Dashboard</a></li>',
+            '<li id="nav-about"><a href="#about">About</a></li>',
+            '</ul>',
+            '<p class="navbar-text pull-right"></p>',
             '</nav>',
             '<div id="content"></div>'
         ].join(''),
 
-        events: {
-        },
+        events: {},
 
-        views: {
+        views: {},
 
-        },
-
-        initialize: function() {
+        initialize: function () {
             this.listenTo(this.model, 'change', this.render);
 
             this.views['about'] = new AboutView({
                 id: 'page-about',
-                className:'page-view'
+                className: 'page-view'
             });
 
             this.views['dash'] = new DashView({
                 id: 'page-dash',
-                className:'page-view'
+                className: 'page-view'
             });
 
             this.$el.append(this.html);
@@ -55,13 +52,12 @@ define([
             return this;
         },
 
-        setPage: function(page) {
+        setPage: function (page) {
             this.$('.nav li').removeClass('active');
             this.$('.page-view').hide();
-            this.$('#page-'+page).show();
-            this.$('#nav-'+page).addClass('active');
+            this.$('#page-' + page).show();
+            this.$('#nav-' + page).addClass('active');
 
-            this.model.set('welcomeMessage', 'Welcome to the ' + page + ' page');
         }
 
     });
