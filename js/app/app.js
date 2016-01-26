@@ -2,40 +2,51 @@ define([
     'app/views/app',
     'app/routers/router',
     'app/models/app',
-    'app/collections/days'
-], function (AppView, Router, AppModel, DaysCollection) {
-  'use strict';
+    'app/collections/days',
+    'app/collections/places'
+], function (AppView, Router, AppModel, DaysCollection, PlacesCollection) {
+    'use strict';
 
-  var initialize = function () {
+    var initialize = function () {
 
-    var appModel = new AppModel();
+        var appModel = new AppModel({id:1});
 
-    var appView = new AppView({
-        model: appModel
-    });
-    $('body').append(appView.render().el);
+        var appView = new AppView({
+            model: appModel
+        });
+        $('body').append(appView.render().el);
 
-    var router = new Router(appView);
-    Backbone.history.start();
+        var router = new Router(appView);
+        Backbone.history.start();
 
-    var daysCollection = new DaysCollection();
+        appModel.fetch();
 
-      daysCollection.url = 'http://api.wunderground.com/api/6d29567e6d1e6e39/forecast/q/IT/Magenta.json';
+        var placesCollection = new PlacesCollection([]);
+        placesCollection.fetch();
 
-      daysCollection.fetch({
-          success: function (collection, response, options) {
-              console.log(collection, response);
-          },
-          error: function (collection, response, options) {
-              console.log('error');
-          }
+        window.debug = {
+            settings: appModel,
+            places: placesCollection
+        };
 
-      })
+        /*var daysCollection = new DaysCollection();
 
-  };
+         daysCollection.url = 'http://api.wunderground.com/api/6d29567e6d1e6e39/forecast/q/IT/Magenta.json';
 
-  return {
-    initialize: initialize
-  }
+         daysCollection.fetch({
+         success: function (collection, response, options) {
+         console.log(collection, response);
+         },
+         error: function (collection, response, options) {
+         console.log('error');
+         }
+
+         })*/
+
+    };
+
+    return {
+        initialize: initialize
+    }
 
 });

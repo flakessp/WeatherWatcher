@@ -1,9 +1,14 @@
 define([
-    'backbone'
+    'backbone',
+    'backbone.localStorage'
+
 ], function (Backbone){
     'use strict';
 
     var AppModel = Backbone.Model.extend({
+
+        localStorage: new Backbone.LocalStorage('AppSettings'),
+
         defaults: {
             'backgroundColor' : '#999',
             'celsius': 'true',
