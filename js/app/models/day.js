@@ -5,6 +5,7 @@ define([
 
     var DayModel = Backbone.Model.extend({
         defaults: {
+            'conditions': '',
             'highCelcius': null,
             'lowCelcius': null,
             'highFahrenheit': null,
@@ -13,6 +14,7 @@ define([
         },
         parse: function (data) {
             var map = {
+                'conditions': data.conditions,
                 'highCelcius': data.high.celsius,
                 'lowCelcius': data.low.celsius,
                 'highFahrenheit': data.high.fahrenheit,
