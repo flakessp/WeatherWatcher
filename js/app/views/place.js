@@ -2,34 +2,36 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'app/templates',
-    'app/collections/days'
-], function ($, _, Backbone, Templates, DaysCollection) {
+    'app/collections/places',
+    'app/collections/days',
+    'app/templates'
+], function ($, _, Backbone, PlacesCollection, DaysCollection, Templates) {
+
     'use strict';
 
-    var PlaceView = Backbone.View.extend({
+    var DashView = Backbone.View.extend({
 
         template: Templates['place'],
 
-        collection : new DaysCollection([]),
+        collection: new DaysCollection([]),
 
+        events: {
+            'click #btn-remove': 'removePlace'
+        },
 
-
-        initialize: function () {
-             var html = this.template(this.model.toJSON());
+        initialize: function() {
+            var html = this.template(this.model.toJSON());
             this.$el.html(html);
             this.$bodyEl = this.$('.panel-body');
         },
 
-        render: function () {
-
+        render: function() {
             var that = this;
 
             this.collection.url = [
                 'http://api.wunderground.com/api/',
                 '6d29567e6d1e6e39',
-                '/',
-                'forecast/q/',
+                '/forecast/q/',
                 this.model.get('countryCode'),
                 '/',
                 this.model.get('name'),
@@ -44,21 +46,24 @@ define([
                     console.log('There was an error');
                 }
             });
-
             return this;
         },
 
-        renderDays: function(){
+        renderDays: function () {
             var daysHtml = [];
-            this.collection.each(function (element, index, list){
-               daysHtml.push(
-                   Templates['day'](element.toJSON())
-               );
+            this.collection.each(function (element, index, list) {
+                daysHtml.push(
+                    Templates['day'](element.toJSON())
+                );
             });
             this.$bodyEl.html(daysHtml.join(''));
+        },
+
+        removePlace: function(e) {
+            this.model.destroy();
         }
+
     });
 
-    return PlaceView;
-
+    return DashView;
 });

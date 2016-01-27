@@ -1,21 +1,22 @@
 define([
-    'backbone',
-    'app/models/day'
-], function (Backbone, DayModel){
-    'use strict';
+	'backbone',
+	'app/models/day'
+], function (Backbone, DayModel) {
 
-    var DaysCollection = Backbone.Collection.extend({
-       model: DayModel,
-        sync: function (method, model, options) {
-            options.timeout = 8000;
-            options.dataType = 'jsonp';
-            return Backbone.sync(method, model, options);
-        },
+	'use strict';
 
-        parse: function (response) {
-            return response.forecast.simpleforecast.forecastday;
-        }
-    });
+	var DaysCollection = Backbone.Collection.extend({
+		model: DayModel,
+		sync: function(method, model, options){  
+			options.timeout = 8000;  
+			options.dataType = "jsonp";
+			return Backbone.sync(method, model, options);  
+		},
+		parse: function(response) {
+			console.log(response);
+			return response.forecast.simpleforecast.forecastday;
+		}
+	});
 
-    return DaysCollection;
+	return DaysCollection;
 });
